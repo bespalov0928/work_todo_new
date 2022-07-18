@@ -20,6 +20,10 @@ public class UserService {
         return userStore.findUserByNamePass(username, pass);
     }
 
+    public Optional<User> findByUserId(int id){
+        return userStore.findByUserId(id);
+    }
+
     public Optional<User> add(User user){
         Optional<User> userNew = Optional.empty();
         Optional<User> userFind = userStore.findUserByNamePass(user.getUsername(), user.getPass());
@@ -28,6 +32,7 @@ public class UserService {
             userNew = userStore.add(user);
         }
         return userNew;
-
     }
+
+
 }

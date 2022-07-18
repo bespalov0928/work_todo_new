@@ -1,9 +1,11 @@
 package ru.work.todo.service;
 
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.work.todo.model.Item;
 import ru.work.todo.model.User;
 import ru.work.todo.persistence.ItemStore;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,14 @@ public class ItemService {
 
     public void updateByIdWhenDone(int id) {
         boolean rsl = store.updateByIdWhenDone(id);
+    }
+
+    public Item add(Item item){
+        return store.add(item);
+    }
+
+    public boolean edit(int id, Item item){
+        return store.edit(id, item);
     }
 
 }

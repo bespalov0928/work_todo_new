@@ -21,6 +21,12 @@ public class UserStore implements Store {
                 .uniqueResultOptional(), sessionFactory);
     }
 
+    public Optional<User> findByUserId(Integer id) {
+        return tx(session -> session.createQuery("from User where id=:nId")
+                .setParameter("nId", id)
+                .uniqueResultOptional(), sessionFactory);
+    }
+
     public Optional<User> add(User user) {
         try {
             return tx(session -> {

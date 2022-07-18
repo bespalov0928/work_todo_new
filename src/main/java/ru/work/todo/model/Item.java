@@ -1,5 +1,7 @@
 package ru.work.todo.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,16 +18,17 @@ public class Item {
     private String description;
     private boolean created;
     private boolean done;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeCreat;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "category_id")
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Category category;
 
     public Item() {
@@ -34,6 +37,13 @@ public class Item {
     public Item(String desc, boolean created, boolean done, Date timeCreat, User user) {
         this.description = desc;
         this.created = created;
+        this.done = done;
+        this.timeCreat = timeCreat;
+        this.user = user;
+    }
+
+    public Item(String desc, boolean done, Date timeCreat, User user) {
+        this.description = desc;
         this.done = done;
         this.timeCreat = timeCreat;
         this.user = user;
@@ -97,7 +107,6 @@ public class Item {
     }
 
     @Override
-
     public String toString() {
         return String.format("id:'%s', desc: '%s'", id, description);
     }

@@ -1,14 +1,13 @@
 package ru.work.todo.persistence;
 
+import net.jcip.annotations.ThreadSafe;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import ru.work.todo.model.Item;
 
-import javax.xml.crypto.Data;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.List;
 import java.util.function.Function;
 
@@ -92,5 +91,20 @@ public class ItemStore {
                 .executeUpdate() > 0);
     }
 
+    public Item add(Item item) {
+        return this.tx(session -> {
+//            session.createQuery("select distinct c from Category c join fetch c.items");
+            session.createQuery("select distinct i from Item i join fetch i.category");
+            session.save(item);
+            return item;
+        });
+    }
+
+    public Item update(Item item) {
+        return this.tx(session -> {
+            session.update(item);
+            return item;
+        });
+    }
 
 }
